@@ -56,22 +56,34 @@ func printResults(results []ArenaResult) {
 
 func printSummaryTable(results []ArenaResult) {
 	// Header
-	fmt.Printf("  %-20s %-10s %-12s %-8s %s\n",
-		bold("Model"), bold("Status"), bold("Latency"), bold("Tokens"), bold("Provider"))
-	fmt.Printf("  %s\n", dim(strings.Repeat("─", 72)))
+	fmt.Printf("  %-18s %-8s %-10s %-7s %-9s %s\n",
+		bold("Model"), bold("Status"), bold("Latency"), bold("Tokens"), bold("Cost(¥)"), bold("Provider"))
+	fmt.Printf("  %s\n", dim(strings.Repeat("─", 80)))
 
 	// Rows
 	for _, r := range results {
 		status := green("✅")
 		latency := fmt.Sprintf("%dms", r.LatencyMs)
 		tokens := fmt.Sprintf("%d", r.TotalTokens)
+		cost := dim("-")
 		name := r.Model
 
 		if !r.Success {
 			status = red("❌")
-			latency = red(r.Error[:min(len(r.Error), 20)])
+			latency = red(r.Error[:min(len(r.Error), 18)])
 			tokens = "-"
-		} else if r.LatencyMs > 5000 {
+		} else if r.TotalCost > 0 {
+			costFmt := fmt.Sprintf("%.4f", r.TotalCost)
+			if r.TotalCost < 0.001 {
+				cost = green(costFmt)
+			} else if r.TotalCost < 0.01 {
+				cost = yellow(costFmt)
+			} else {
+				cost = red(costFmt)
+			}
+		}
+
+		if r.LatencyMs > 5000 && r.Success {
 			latency = yellow(latency)
 		}
 
@@ -80,8 +92,8 @@ func printSummaryTable(results []ArenaResult) {
 			name = alias
 		}
 
-		fmt.Printf("  %-20s %-10s %-12s %-8s %s\n",
-			name, status, latency, tokens, dim(r.Provider))
+		fmt.Printf("  %-18s %-8s %-10s %-7s %-9s %s\n",
+			name, status, latency, tokens, cost, dim(r.Provider))
 	}
 }
 

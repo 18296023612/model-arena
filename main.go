@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-const version = "0.1.0"
+const version = "0.1.1"
 
 func main() {
 	runCmd := flag.NewFlagSet("run", flag.ExitOnError)
@@ -115,7 +115,7 @@ func printConfigTemplate() {
 	fmt.Println(bold("# Model Arena Configuration"))
 	fmt.Println("# Save as arena.yaml and use: model-arena run --prompt \"hi\" --config arena.yaml")
 	fmt.Println()
-	fmt.Println(`models:
+	fmt.Print(`models:
   - name: deepseek-chat
     alias: ds
     provider: deepseek

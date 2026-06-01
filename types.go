@@ -11,16 +11,19 @@ type ModelConfig struct {
 
 // ArenaResult holds the result of a single model's execution.
 type ArenaResult struct {
-	Model            string `json:"model"`
-	Alias            string `json:"alias,omitempty"`
-	Provider         string `json:"provider"`
-	Content          string `json:"content"`
-	LatencyMs        int64  `json:"latency_ms"`
-	PromptTokens     int    `json:"prompt_tokens"`
-	CompletionTokens int    `json:"completion_tokens"`
-	TotalTokens      int    `json:"total_tokens"`
-	Error            string `json:"error,omitempty"`
-	Success          bool   `json:"success"`
+	Model            string  `json:"model"`
+	Alias            string  `json:"alias,omitempty"`
+	Provider         string  `json:"provider"`
+	Content          string  `json:"content"`
+	LatencyMs        int64   `json:"latency_ms"`
+	PromptTokens     int     `json:"prompt_tokens"`
+	CompletionTokens int     `json:"completion_tokens"`
+	TotalTokens      int     `json:"total_tokens"`
+	InputCost        float64 `json:"input_cost"`
+	OutputCost       float64 `json:"output_cost"`
+	TotalCost        float64 `json:"total_cost"`
+	Error            string  `json:"error,omitempty"`
+	Success          bool    `json:"success"`
 }
 
 // ChatRequest is the OpenAI-compatible chat completion request body.

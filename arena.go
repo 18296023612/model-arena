@@ -100,6 +100,7 @@ func (a *Arena) callModel(cfg ModelConfig, msg ChatMessage, stream bool) ArenaRe
 		res.TotalTokens = res.PromptTokens + res.CompletionTokens
 	}
 	res.Success = true
+	res.CalculateCost()
 	return res
 }
 
